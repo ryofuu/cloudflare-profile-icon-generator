@@ -5,6 +5,10 @@ compatibility_date = "2026-04-14"
 workers_dev = true
 preview_urls = true
 
+[[routes]]
+pattern = "profile-icon-generator.maker-fy.com"
+custom_domain = true
+
 [vars]
 IMAGE_GENERATOR = "openai"
 AI_MODEL = "@cf/black-forest-labs/flux-1-schnell"
