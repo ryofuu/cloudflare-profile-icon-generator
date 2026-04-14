@@ -33,7 +33,11 @@ describe("API routes", () => {
 
     expect(response.status).toBe(200);
     const body = (await response.json()) as { items: Array<{ id: string }> };
-    expect(body.items[0]?.id).toBe("x-twitter");
+    expect(body.items.map((item) => item.id)).toEqual([
+      "square",
+      "landscape",
+      "portrait",
+    ]);
   });
 
   it("creates and retrieves a generation", async () => {
@@ -45,7 +49,7 @@ describe("API routes", () => {
       },
       body: JSON.stringify({
         prompt: "雲の上の少女",
-        presetId: "instagram",
+        presetId: "portrait",
       }),
     });
 
@@ -54,6 +58,9 @@ describe("API routes", () => {
       id: string;
       status: string;
       imageUrl: string | null;
+      presetId: string;
+      width: number;
+      height: number;
     };
     const detailResponse = await app.request(`/api/generations/${created.id}`);
     const imageResponse = await app.request(
@@ -62,6 +69,9 @@ describe("API routes", () => {
 
     expect(created.status).toBe("succeeded");
     expect(created.imageUrl).not.toBeNull();
+    expect(created.presetId).toBe("portrait");
+    expect(created.width).toBe(1024);
+    expect(created.height).toBe(1536);
     expect(detailResponse.status).toBe(200);
     expect(imageResponse.headers.get("content-type")).toBe("image/png");
   });

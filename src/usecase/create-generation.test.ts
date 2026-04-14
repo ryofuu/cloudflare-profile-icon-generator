@@ -15,13 +15,15 @@ describe("CreateGeneration", () => {
 
     const generation = await usecase.execute({
       prompt: "赤い背景の狼",
-      presetId: "x-twitter",
+      presetId: "square",
     });
 
     expect(generation.fullPrompt).toContain("safe for circular crop");
     expect(storage.entries.has(generation.imageKey)).toBe(true);
     expect(repository.items[0]?.id).toBe(generation.id);
     expect(repository.items[0]?.status).toBe("succeeded");
+    expect(generation.width).toBe(1024);
+    expect(generation.height).toBe(1024);
     expect(generation.model).toBe("mock/image-generator");
   });
 
@@ -39,7 +41,7 @@ describe("CreateGeneration", () => {
     await expect(
       usecase.execute({
         prompt: "赤い背景の狼",
-        presetId: "x-twitter",
+        presetId: "square",
       }),
     ).rejects.toThrow("provider unavailable");
 
