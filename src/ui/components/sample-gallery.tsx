@@ -19,8 +19,9 @@ export function SampleGallery(props: SampleGalleryProps) {
           {sample.imageUrl ? (
             <img
               className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
-              src={sample.imageUrl}
+              src={sample.imageUrl.replace("/samples/", "/samples/thumbs/")}
               alt={sample.label}
+              loading="lazy"
             />
           ) : (
             <div className="grid size-full place-items-center text-muted-foreground">
