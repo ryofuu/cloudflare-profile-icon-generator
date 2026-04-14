@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Download, Sparkles, WandSparkles } from "lucide-react";
+import { startTransition, useEffect, useState } from "react";
+import { Download, History, Sparkles, WandSparkles } from "lucide-react";
 import type { GenerationDto } from "@/api/serializers";
 import { findPreset, type SizePreset } from "@/domain/preset";
 import type { Sample } from "@/ui/samples";
@@ -43,6 +43,15 @@ function toGenerationPreview(generation: GenerationDto): PreviewImage | null {
   };
 }
 
+function generationToSample(generation: GenerationDto): Sample {
+  return {
+    id: generation.id,
+    label: generation.prompt.slice(0, 20) + (generation.prompt.length > 20 ? "..." : ""),
+    prompt: generation.prompt,
+    imageUrl: generation.imageUrl,
+  };
+}
+
 function toSamplePreview(sample: Sample): PreviewImage | null {
   if (!sample.imageUrl) {
     return null;
@@ -61,6 +70,7 @@ export function App() {
   const [selectedPresetId, setSelectedPresetId] = useState("square");
   const [preview, setPreview] = useState<PreviewImage | null>(() => toSamplePreview(SAMPLES[0]) ?? null);
   const [prompt, setPrompt] = useState("");
+  const [history, setHistory] = useState<GenerationDto[]>([]);
 
   const { generate, isSubmitting, error: submitError } = useGenerate();
   const selectedPreset = presets.find((preset) => preset.id === selectedPresetId)
@@ -69,16 +79,26 @@ export function App() {
     ? { aspectRatio: `${selectedPreset.width} / ${selectedPreset.height}` }
     : undefined;
 
+  function refreshHistory() {
+    fetchJson<{ items: GenerationDto[] }>("/api/generations?limit=20")
+      .then((res) => {
+        startTransition(() => setHistory(res.items.filter((g) => g.status === "succeeded")));
+      })
+      .catch(() => {});
+  }
+
   useEffect(() => {
     fetchJson<{ items: SizePreset[] }>("/api/presets")
       .then((res) => setPresets(res.items))
       .catch(() => {});
+    refreshHistory();
   }, []);
 
   async function handleGenerate() {
     try {
       const generation = await generate({ prompt, presetId: selectedPresetId });
       setPreview(toGenerationPreview(generation));
+      refreshHistory();
     } catch {
       // hook handles error state
     }
@@ -203,6 +223,22 @@ export function App() {
         </div>
         <SampleGallery samples={SAMPLES} onSelect={handleSampleSelect} />
       </section>
+
+      {/* History Gallery — full width */}
+      {history.length > 0 && (
+        <section className="relative space-y-3 px-5 pb-10 md:px-8">
+          <div className="mx-auto max-w-3xl">
+            <div className="flex items-center gap-2">
+              <History className="size-4 text-amber-700" />
+              <h2 className="text-sm font-semibold">最近の生成</h2>
+            </div>
+          </div>
+          <SampleGallery
+            samples={history.map(generationToSample)}
+            onSelect={handleSampleSelect}
+          />
+        </section>
+      )}
     </main>
   );
 }

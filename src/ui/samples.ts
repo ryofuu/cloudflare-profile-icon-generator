@@ -186,4 +186,22 @@ export const SAMPLES: Sample[] = [
     prompt: "星座の線で描かれた人物の横顔、夜空の背景に光る星々を繋ぐ線、天文学的で幻想的、ダークネイビーとゴールド",
     imageUrl: "/samples/constellation.png",
   },
+  {
+    id: "handdrawn-cat",
+    label: "手描き風キャット",
+    prompt: "猫のシルエット、ダークブルーとパープル、神秘的、人が描いたような手書き感、温かみのある筆のタッチ",
+    imageUrl: "/samples/handdrawn-cat.png",
+  },
+  {
+    id: "shiba-dog",
+    label: "柴犬",
+    prompt: "かわいい犬のポートレート、柴犬、ふわふわの毛並み、目がキラキラ、パステルカラーの背景、手描きイラスト風",
+    imageUrl: "/samples/shiba-dog.png",
+  },
+  {
+    id: "sleeping-cat",
+    label: "眠り猫",
+    prompt: "丸まって眠る三毛猫、水彩画風、柔らかいタッチ、暖かい色合い、毛布の上、癒し系イラスト",
+    imageUrl: "/samples/sleeping-cat.png",
+  },
 ];
