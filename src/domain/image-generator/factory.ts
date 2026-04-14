@@ -6,7 +6,13 @@ import { WorkersAIGenerator } from "@/domain/image-generator/workers-ai";
 import type { Env } from "@/infrastructure/bindings";
 
 export function createImageGenerator(env: Env): ImageGenerator {
-  const type = env.IMAGE_GENERATOR ?? (env.AI ? "workers-ai" : "mock");
+  const type = env.IMAGE_GENERATOR;
+  if (!type) {
+    throw new ConfigurationError(
+      "IMAGE_GENERATOR is not set. Set it to \"openai\", \"workers-ai\", or \"mock\".",
+    );
+  }
+
   const model = env.AI_MODEL ?? "@cf/black-forest-labs/flux-1-schnell";
 
   switch (type) {
@@ -15,7 +21,7 @@ export function createImageGenerator(env: Env): ImageGenerator {
     case "workers-ai":
       return new WorkersAIGenerator(env.AI, model);
     case "openai":
-      return new OpenAIGenerator();
+      return new OpenAIGenerator(env.OPENAI_API_KEY ?? "");
     default:
       throw new ConfigurationError(`Unsupported IMAGE_GENERATOR "${type}".`);
   }

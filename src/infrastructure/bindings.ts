@@ -4,5 +4,6 @@ export interface Env {
   AI?: Ai;
   IMAGE_GENERATOR?: string;
   AI_MODEL?: string;
+  OPENAI_API_KEY?: string;
 }
 

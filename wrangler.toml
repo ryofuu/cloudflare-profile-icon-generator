@@ -6,7 +6,7 @@ workers_dev = true
 preview_urls = true
 
 [vars]
-IMAGE_GENERATOR = "workers-ai"
+IMAGE_GENERATOR = "openai"
 AI_MODEL = "@cf/black-forest-labs/flux-1-schnell"
 
 [ai]

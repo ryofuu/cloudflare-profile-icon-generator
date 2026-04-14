@@ -9,6 +9,7 @@ coverage
 .env
 .env.*
 !.env.example
+.dev.vars
 terraform/.terraform
 terraform/.terraform.lock.hcl
 terraform/*.tfstate
