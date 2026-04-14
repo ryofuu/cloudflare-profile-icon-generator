@@ -1,10 +1,6 @@
 import { NotFoundError } from "@/domain/errors";
 
-export type PresetId =
-  | "x-twitter"
-  | "instagram"
-  | "discord"
-  | "universal";
+export type PresetId = "square" | "landscape" | "portrait";
 
 export type SizePreset = {
   id: PresetId;
@@ -21,38 +17,29 @@ const SAFE_CROP_SUFFIX =
 
 export const PRESETS: SizePreset[] = [
   {
-    id: "x-twitter",
-    label: "X (Twitter)",
-    description: "400x400px, 円形切り抜きでも主題が中央に残るよう最適化",
-    width: 400,
-    height: 400,
+    id: "square",
+    label: "正方形",
+    description: "1024x1024 — X, Instagram, Discord などのプロフィールアイコンに",
+    width: 1024,
+    height: 1024,
     format: "png",
     promptSuffix: SAFE_CROP_SUFFIX,
   },
   {
-    id: "instagram",
-    label: "Instagram",
-    description: "1080x1080px, 円形切り抜きでも主題が中央に残るよう最適化",
-    width: 1080,
-    height: 1080,
+    id: "landscape",
+    label: "横長",
+    description: "1536x1024 — X ヘッダー, YouTube バナー, OGP 画像に",
+    width: 1536,
+    height: 1024,
     format: "png",
     promptSuffix: SAFE_CROP_SUFFIX,
   },
   {
-    id: "discord",
-    label: "Discord",
-    description: "512x512px, 円形切り抜きでも主題が中央に残るよう最適化",
-    width: 512,
-    height: 512,
-    format: "png",
-    promptSuffix: SAFE_CROP_SUFFIX,
-  },
-  {
-    id: "universal",
-    label: "汎用",
-    description: "512x512px, 主要サービスへ使い回しやすい汎用サイズ",
-    width: 512,
-    height: 512,
+    id: "portrait",
+    label: "縦長",
+    description: "1024x1536 — Instagram ストーリー, TikTok, スマホ壁紙に",
+    width: 1024,
+    height: 1536,
     format: "png",
     promptSuffix: SAFE_CROP_SUFFIX,
   },
@@ -71,4 +58,3 @@ export function getPreset(id: string): SizePreset {
     throw new NotFoundError("Preset", id);
   })();
 }
-

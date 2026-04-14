@@ -8,7 +8,7 @@ type SampleGalleryProps = {
 
 export function SampleGallery(props: SampleGalleryProps) {
   return (
-    <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
+    <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
       {props.samples.map((sample) => (
         <button
           key={sample.id}
@@ -29,7 +29,7 @@ export function SampleGallery(props: SampleGalleryProps) {
           )}
           <div className="absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-black/80 via-black/50 to-transparent px-3 pb-3 pt-8 transition-transform duration-200 group-hover:translate-y-0">
             <p className="text-sm font-semibold text-white">{sample.label}</p>
-            <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-white/80">
+            <p className="mt-1 text-xs leading-relaxed text-white/80">
               {sample.prompt}
             </p>
           </div>

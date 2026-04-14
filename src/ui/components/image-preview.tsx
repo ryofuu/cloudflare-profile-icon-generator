@@ -19,12 +19,16 @@ export function ImagePreview(props: ImagePreviewProps) {
     <div className="grid gap-5">
       {props.generation.imageUrl ? (
         <img
-          className="aspect-square w-full max-w-[420px] rounded-[2rem] border border-border/70 bg-secondary object-cover"
+          className="block w-full max-w-[420px] rounded-[2rem] border border-border/70 bg-secondary"
           src={props.generation.imageUrl}
           alt={props.generation.prompt}
+          style={{ aspectRatio: `${props.generation.width} / ${props.generation.height}` }}
         />
       ) : (
-        <div className="grid aspect-square w-full max-w-[420px] place-items-center rounded-[2rem] border border-dashed border-border/80 bg-secondary/50 text-sm text-muted-foreground">
+        <div
+          className="grid w-full max-w-[420px] place-items-center rounded-[2rem] border border-dashed border-border/80 bg-secondary/50 text-sm text-muted-foreground"
+          style={{ aspectRatio: `${props.generation.width} / ${props.generation.height}` }}
+        >
           画像はまだ利用できません
         </div>
       )}
