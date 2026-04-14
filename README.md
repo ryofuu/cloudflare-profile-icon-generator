@@ -107,6 +107,7 @@ pnpm dev:local
 pnpm build
 pnpm test
 pnpm typecheck
+pnpm validate
 pnpm d1:migrate:local
 pnpm d1:migrate:remote
 pnpm deploy
@@ -115,6 +116,38 @@ pnpm infra:sync
 ```
 
 ## デプロイ運用
+
+## CI/CD
+
+GitHub Actions を前提に、次の 2 本を入れています。
+
+- `.github/workflows/ci.yml`
+  - Pull Request と `main` 以外の push で実行
+  - `pnpm install --frozen-lockfile`
+  - `pnpm validate`
+- `.github/workflows/deploy.yml`
+  - `main` への push または手動実行で本番 deploy
+  - `pnpm validate`
+  - `pnpm d1:migrate:remote`
+  - `pnpm deploy`
+
+### GitHub Secrets
+
+GitHub リポジトリの `Settings > Secrets and variables > Actions` に以下を入れます。
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
+### 推奨運用
+
+- PR で CI を通す
+- `main` に merge すると自動 deploy
+- 本番 deploy を保護したい場合は GitHub の `production` environment に承認ルールを付ける
+
+### 注意
+
+今の deploy workflow は `main` 反映時に D1 migration も自動適用します。  
+破壊的変更を含む migration を将来入れるなら、そもそも expand/contract 方式へ切り替えるか、migration workflow を deploy から分離してください。
 
 ### 通常
 

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.12.1",
   "scripts": {
     "build": "pnpm build:client && pnpm typecheck",
     "build:client": "vite build",
@@ -17,7 +18,8 @@
     "drizzle:generate": "drizzle-kit generate",
     "infra:sync": "node ./scripts/sync-wrangler-bindings.mjs",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate": "pnpm typecheck && pnpm test && pnpm build:client"
   },
   "dependencies": {
     "@tailwindcss/vite": "4.2.2",
