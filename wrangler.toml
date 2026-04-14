@@ -1,0 +1,27 @@
+"$schema" = "./node_modules/wrangler/config-schema.json"
+name = "cloudflare-profile-icon"
+main = "src/index.ts"
+compatibility_date = "2026-04-14"
+workers_dev = true
+preview_urls = true
+
+[vars]
+IMAGE_GENERATOR = "workers-ai"
+AI_MODEL = "@cf/black-forest-labs/flux-1-schnell"
+
+[ai]
+binding = "AI"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cloudflare-profile-icon"
+database_id = "1e05ed40-0779-4826-ad8a-8fa98356dce0"
+
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "cloudflare-profile-icon-images"
+
+[assets]
+directory = "./dist/client"
+not_found_handling = "single-page-application"
+run_worker_first = [ "/api/*" ]

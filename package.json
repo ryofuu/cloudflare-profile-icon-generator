@@ -1,0 +1,48 @@
+{
+  "name": "cloudflare-profile-icon",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm build:client && pnpm typecheck",
+    "build:client": "vite build",
+    "dev": "concurrently \"pnpm dev:client\" \"pnpm dev:worker\"",
+    "dev:local": "pnpm exec wrangler d1 migrations apply cloudflare-profile-icon --local && pnpm dev",
+    "dev:client": "vite dev --host 127.0.0.1 --strictPort",
+    "dev:worker": "wrangler dev --port 8787",
+    "deploy": "pnpm build && wrangler deploy",
+    "deploy:sync": "pnpm build && pnpm infra:sync && wrangler deploy",
+    "d1:migrate:local": "wrangler d1 migrations apply cloudflare-profile-icon --local",
+    "d1:migrate:remote": "wrangler d1 migrations apply cloudflare-profile-icon --remote",
+    "drizzle:generate": "drizzle-kit generate",
+    "infra:sync": "node ./scripts/sync-wrangler-bindings.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "4.2.2",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "drizzle-orm": "0.45.2",
+    "hono": "4.12.12",
+    "lucide-react": "1.8.0",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "tailwind-merge": "3.5.0",
+    "tailwindcss": "4.2.2",
+    "ulid": "3.0.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20260414.1",
+    "@types/node": "25.6.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.1",
+    "concurrently": "9.2.1",
+    "drizzle-kit": "0.31.10",
+    "typescript": "5.9.3",
+    "vite": "8.0.8",
+    "vitest": "4.1.4",
+    "wrangler": "4.82.2"
+  }
+}

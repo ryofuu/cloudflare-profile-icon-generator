@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-sans-ui);
+  --font-serif: var(--font-serif-display);
+}
+
+:root {
+  color-scheme: light;
+  --background: oklch(0.985 0.015 92);
+  --foreground: oklch(0.215 0.03 255);
+  --card: oklch(1 0 0 / 0.82);
+  --card-foreground: oklch(0.215 0.03 255);
+  --primary: oklch(0.68 0.18 52);
+  --primary-foreground: oklch(0.98 0.01 80);
+  --secondary: oklch(0.965 0.01 95);
+  --secondary-foreground: oklch(0.24 0.03 255);
+  --muted: oklch(0.97 0.01 90);
+  --muted-foreground: oklch(0.48 0.03 255);
+  --border: oklch(0.9 0.01 88);
+  --ring: oklch(0.77 0.13 78);
+  --font-sans-ui: "Avenir Next", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --font-serif-display: "Iowan Old Style", "Times New Roman", serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans-ui);
+}
