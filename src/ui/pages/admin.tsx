@@ -1,4 +1,4 @@
-import { startTransition, useEffect, useState } from "react";
+import { startTransition, useEffect, useLayoutEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import type { GenerationDto } from "@/api/serializers";
 import { cn } from "@/lib/utils";
@@ -32,6 +32,14 @@ export function AdminPage() {
   const [history, setHistory] = useState<GenerationDto[]>([]);
   const [selected, setSelected] = useState<GenerationDto | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useLayoutEffect(() => {
+    const meta = document.createElement("meta");
+    meta.name = "robots";
+    meta.content = "noindex, nofollow";
+    document.head.appendChild(meta);
+    return () => { document.head.removeChild(meta); };
+  }, []);
 
   function refresh() {
     fetchJson<{ items: GenerationDto[] }>("/api/generations?limit=50&includeHidden=true")

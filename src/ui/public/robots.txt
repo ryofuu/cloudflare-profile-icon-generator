@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+
+Sitemap: https://profile-icon-generator.maker-ly.com/sitemap.xml
