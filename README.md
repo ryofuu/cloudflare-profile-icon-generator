@@ -71,7 +71,7 @@ pnpm d1:migrate:remote
 #### デプロイ
 
 ```bash
-pnpm deploy
+pnpm deploy:prod
 ```
 
 ## ローカル開発
@@ -110,8 +110,8 @@ pnpm typecheck
 pnpm validate
 pnpm d1:migrate:local
 pnpm d1:migrate:remote
-pnpm deploy
-pnpm deploy:sync
+pnpm deploy:prod
+pnpm deploy:prod:sync
 pnpm infra:sync
 ```
 
@@ -127,9 +127,9 @@ GitHub Actions を前提に、次の 2 本を入れています。
   - `pnpm validate`
 - `.github/workflows/deploy.yml`
   - `main` への push または手動実行で本番 deploy
-  - `pnpm validate`
-  - `pnpm d1:migrate:remote`
-  - `pnpm deploy`
+- `pnpm validate`
+- `pnpm d1:migrate:remote`
+- `pnpm deploy:prod`
 
 ### GitHub Secrets
 
@@ -137,6 +137,13 @@ GitHub リポジトリの `Settings > Secrets and variables > Actions` に以下
 
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
+
+重要:
+
+- `CLOUDFLARE_ACCOUNT_ID` は Worker / D1 / R2 を作成した **同じ Cloudflare アカウント** の ID にする
+- `CLOUDFLARE_API_TOKEN` もそのアカウントに対して有効な token にする
+- token は Workers deploy だけでなく D1 migration も実行できる権限が必要
+- アカウント不一致だと deploy workflow の `Verify D1 access` または `d1:migrate:remote` で `code: 7403` が出る
 
 ### 推奨運用
 
@@ -154,20 +161,20 @@ GitHub リポジトリの `Settings > Secrets and variables > Actions` に以下
 Cloudflare ダッシュボードや `wrangler` で手動作成済みのリソースを使う場合:
 
 ```bash
-pnpm deploy
+pnpm deploy:prod
 ```
 
 ### Terraform 出力から `wrangler.toml` を同期したい場合
 
 ```bash
 pnpm infra:sync
-pnpm deploy
+pnpm deploy:prod
 ```
 
 または一括で:
 
 ```bash
-pnpm deploy:sync
+pnpm deploy:prod:sync
 ```
 
 `infra:sync` は `terraform output -json` を読み、`wrangler.toml` の以下を上書きします。

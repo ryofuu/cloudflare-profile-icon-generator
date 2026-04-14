@@ -67,7 +67,7 @@ GitHub の `Settings > Secrets and variables > Actions` で以下を登録する
 
 - `pnpm validate`
 - `pnpm d1:migrate:remote`
-- `pnpm deploy`
+- `pnpm deploy:prod`
 
 ## 完了条件
 

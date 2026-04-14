@@ -43,9 +43,14 @@ jobs:
       - name: Validate before deploy
         run: pnpm validate
 
+      - name: Verify Cloudflare auth context
+        run: wrangler whoami
+
+      - name: Verify D1 access
+        run: wrangler d1 info cloudflare-profile-icon
+
       - name: Apply remote D1 migrations
         run: pnpm d1:migrate:remote
 
       - name: Deploy Worker
-        run: pnpm deploy
-
+        run: pnpm deploy:prod
