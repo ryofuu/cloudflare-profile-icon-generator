@@ -72,7 +72,13 @@ export function App() {
   function refreshHistory() {
     fetchJson<{ items: GenerationDto[] }>("/api/generations?limit=20")
       .then((res) => {
-        startTransition(() => setHistory(res.items.filter((g) => g.status === "succeeded")));
+        startTransition(() =>
+          setHistory(
+            res.items.filter(
+              (g) => g.status === "succeeded" && g.width === g.height,
+            ),
+          ),
+        );
       })
       .catch(() => {});
   }
