@@ -1,9 +1,7 @@
 import { startTransition, useEffect, useState } from "react";
 import { Download, Sparkles, WandSparkles } from "lucide-react";
 import type { GenerationDto } from "@/api/serializers";
-import { findPreset, type SizePreset } from "@/domain/preset";
 import type { Sample } from "@/ui/samples";
-import { PresetSelector } from "@/ui/components/preset-selector";
 import { PromptForm } from "@/ui/components/prompt-form";
 import { SampleGallery } from "@/ui/components/sample-gallery";
 import { buttonVariants } from "@/ui/components/ui/button";
@@ -24,8 +22,6 @@ type PreviewImage = {
   imageUrl: string;
   alt: string;
   downloadName: string;
-  width?: number;
-  height?: number;
   description?: string;
 };
 
@@ -38,8 +34,6 @@ function toGenerationPreview(generation: GenerationDto): PreviewImage | null {
     imageUrl: generation.imageUrl,
     alt: generation.prompt,
     downloadName: `icon-${generation.id}.png`,
-    width: generation.width,
-    height: generation.height,
   };
 }
 
@@ -66,21 +60,14 @@ function toSamplePreview(sample: Sample): PreviewImage | null {
 }
 
 export function App() {
-  const [presets, setPresets] = useState<SizePreset[]>([]);
-  const [selectedPresetId, setSelectedPresetId] = useState("square");
   const [preview, setPreview] = useState<PreviewImage | null>(() => {
-    const cat = SAMPLES.find((s) => s.id === "handdrawn-cat") ?? SAMPLES[0];
-    return toSamplePreview(cat);
+    const defaultSample = SAMPLES.find((sample) => sample.id === "neon-popstar") ?? SAMPLES[0];
+    return toSamplePreview(defaultSample);
   });
   const [prompt, setPrompt] = useState("");
   const [history, setHistory] = useState<GenerationDto[]>([]);
 
   const { generate, isSubmitting, error: submitError } = useGenerate();
-  const selectedPreset = presets.find((preset) => preset.id === selectedPresetId)
-    ?? findPreset(selectedPresetId);
-  const previewFrameStyle = selectedPreset
-    ? { aspectRatio: `${selectedPreset.width} / ${selectedPreset.height}` }
-    : undefined;
 
   function refreshHistory() {
     fetchJson<{ items: GenerationDto[] }>("/api/generations?limit=20")
@@ -91,15 +78,12 @@ export function App() {
   }
 
   useEffect(() => {
-    fetchJson<{ items: SizePreset[] }>("/api/presets")
-      .then((res) => setPresets(res.items))
-      .catch(() => {});
     refreshHistory();
   }, []);
 
   async function handleGenerate() {
     try {
-      const generation = await generate({ prompt, presetId: selectedPresetId });
+      const generation = await generate({ prompt, presetId: "square" });
       setPreview(toGenerationPreview(generation));
       refreshHistory();
     } catch {
@@ -139,10 +123,7 @@ export function App() {
         <Card>
           <CardContent className="p-6">
             {isSubmitting ? (
-              <div
-                className="grid w-full max-w-md place-items-center rounded-2xl border border-border/80 bg-secondary/50"
-                style={previewFrameStyle}
-              >
+              <div className="grid aspect-square w-full max-w-md place-items-center rounded-2xl border border-border/80 bg-secondary/50">
                 <div className="flex flex-col items-center gap-4">
                   <div className="size-10 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
                   <p className="text-sm font-medium text-muted-foreground animate-pulse">
@@ -156,14 +137,9 @@ export function App() {
             ) : preview ? (
               <div className="grid gap-4">
                 <img
-                  className="block w-full max-w-md rounded-2xl border border-border/70 bg-secondary"
+                  className="block aspect-square w-full max-w-md rounded-2xl border border-border/70 bg-secondary object-cover"
                   src={preview.imageUrl}
                   alt={preview.alt}
-                  style={
-                    preview.width && preview.height
-                      ? { aspectRatio: `${preview.width} / ${preview.height}` }
-                      : undefined
-                  }
                 />
                 <a
                   className={cn(buttonVariants(), "w-full sm:w-fit")}
@@ -180,10 +156,7 @@ export function App() {
                 ) : null}
               </div>
             ) : (
-              <div
-                className="grid w-full max-w-md place-items-center rounded-2xl border border-dashed border-border/80 bg-background/50 text-center text-sm text-muted-foreground"
-                style={previewFrameStyle}
-              >
+              <div className="grid aspect-square w-full max-w-md place-items-center rounded-2xl border border-dashed border-border/80 bg-background/50 text-center text-sm text-muted-foreground">
                 <p>
                   プロンプトを入力して生成すると
                   <br />
@@ -194,14 +167,9 @@ export function App() {
           </CardContent>
         </Card>
 
-        {/* Prompt + Aspect Ratio */}
+        {/* Prompt */}
         <Card>
-          <CardContent className="grid gap-5 p-6">
-            <PresetSelector
-              presets={presets}
-              selectedPresetId={selectedPresetId}
-              onSelect={setSelectedPresetId}
-            />
+          <CardContent className="p-6">
             <PromptForm
               prompt={prompt}
               isSubmitting={isSubmitting}

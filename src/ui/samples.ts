@@ -7,6 +7,42 @@ export type Sample = {
 
 export const SAMPLES: Sample[] = [
   {
+    id: "pop-art",
+    label: "ポップアート",
+    prompt: "ポップアート風のポートレート、アンディ・ウォーホル風の大胆な配色、ハーフトーンのドットパターン、ピンクと黄色とシアン",
+    imageUrl: "/samples/pop-art.png",
+  },
+  {
+    id: "neon-popstar",
+    label: "ネオンポップスター",
+    prompt: "ポップアート風の女性ポートレート、アンディ・ウォーホル風の大胆な配色、ショッキングピンクとレモンイエローとシアン、ハーフトーンのドットパターン、ヘッドホン、正面構図、スクリーンプリントの質感、鮮烈でアーティスティック",
+    imageUrl: "/samples/neon-popstar.png",
+  },
+  {
+    id: "lemon-graffiti",
+    label: "レモングラフィティ",
+    prompt: "ポップアート風の男性ポートレート、ターコイズとタンジェリンオレンジとライムグリーン、コミック風の太い輪郭、ハーフトーンのドットパターン、片目に星型サングラス、グラフィティの勢い、アーティスティック",
+    imageUrl: "/samples/lemon-graffiti.png",
+  },
+  {
+    id: "soda-bloom",
+    label: "ソーダブルーム",
+    prompt: "リソグラフ風のポップポートレート、ミントグリーンとピーチとマゼンタ、重なった色ズレ、ハーフトーンのドット、雑誌の表紙のような構図、ベレー帽の女性、柔らかいが大胆",
+    imageUrl: "/samples/soda-bloom.png",
+  },
+  {
+    id: "sunset-punk",
+    label: "サンセットパンク",
+    prompt: "ネオポップ風のポートレート、カナリアイエローとバイオレットとアクアブルー、スプレーペイントのテクスチャ、短髪の人物、斜め構図、グラフィカルで大胆、ハーフトーンのドットパターン",
+    imageUrl: "/samples/sunset-punk.png",
+  },
+  {
+    id: "candy-halftone",
+    label: "キャンディハーフトーン",
+    prompt: "ポップアート風のポートレート、チェリーレッドとスカイブルーとバターイエロー、シルクスクリーン風、フラワーサングラスをかけた人物、遊び心のある表情、ドットパターン、カラーブロック背景、アーティスティック",
+    imageUrl: "/samples/candy-halftone.png",
+  },
+  {
     id: "cyberpunk-hacker",
     label: "サイバーパンクハッカー",
     prompt: "サイバーパンク風の女性ハッカー、ネオンブルーの照明、短髪、自信に満ちた表情、暗い背景にホログラム、SF映画のワンシーン",
@@ -89,12 +125,6 @@ export const SAMPLES: Sample[] = [
     label: "墨絵の武道家",
     prompt: "水墨画風の武道家、白黒の墨絵タッチ、道着姿で構える侍、動きのある筆致、余白を活かした和の構図",
     imageUrl: "/samples/ink-martial-artist.png",
-  },
-  {
-    id: "pop-art",
-    label: "ポップアート",
-    prompt: "ポップアート風のポートレート、アンディ・ウォーホル風の大胆な配色、ハーフトーンのドットパターン、ピンクと黄色とシアン",
-    imageUrl: "/samples/pop-art.png",
   },
   {
     id: "ukiyo-e",
