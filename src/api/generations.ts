@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { ValidationError } from "@/domain/errors";
+import type { GenerationRepository } from "@/domain/generation-repository";
 import type { CreateGeneration } from "@/usecase/create-generation";
 import type { GetGeneration } from "@/usecase/get-generation";
 import type { GetGenerationImage } from "@/usecase/get-generation-image";
@@ -11,6 +12,7 @@ type GenerationRouteDependencies = {
   getGeneration: GetGeneration;
   getGenerationImage: GetGenerationImage;
   listGenerations: ListGenerations;
+  generationRepository: GenerationRepository;
 };
 
 function asCreateRequest(
@@ -46,8 +48,9 @@ export function createGenerationRoutes(deps: GenerationRouteDependencies) {
       ? Number(c.req.query("limit"))
       : 20;
     const cursor = c.req.query("cursor") ?? undefined;
+    const includeHidden = c.req.query("includeHidden") === "true";
 
-    const result = await deps.listGenerations.execute({ limit, cursor });
+    const result = await deps.listGenerations.execute({ limit, cursor, includeHidden });
     return c.json({
       items: result.items.map(serializeGeneration),
       nextCursor: result.nextCursor,
@@ -57,6 +60,15 @@ export function createGenerationRoutes(deps: GenerationRouteDependencies) {
   app.get("/:id", async (c) => {
     const generation = await deps.getGeneration.execute(c.req.param("id"));
     return c.json(serializeGeneration(generation));
+  });
+
+  app.patch("/:id/hidden", async (c) => {
+    const body = await c.req.json() as { hidden?: boolean };
+    if (typeof body.hidden !== "boolean") {
+      throw new ValidationError("hidden must be a boolean.");
+    }
+    await deps.generationRepository.updateHidden(c.req.param("id"), body.hidden);
+    return c.json({ ok: true });
   });
 
   app.get("/:id/image", async (c) => {

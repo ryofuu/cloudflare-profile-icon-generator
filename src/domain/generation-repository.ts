@@ -6,9 +6,11 @@ export interface GenerationRepository {
   findAll(params: {
     limit: number;
     cursor?: string;
+    includeHidden?: boolean;
   }): Promise<{
     items: Generation[];
     nextCursor: string | null;
   }>;
+  updateHidden(id: string, hidden: boolean): Promise<void>;
 }
 

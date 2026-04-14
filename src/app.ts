@@ -8,6 +8,7 @@ export type AppDependencies = {
   getGeneration: import("@/usecase/get-generation").GetGeneration;
   listGenerations: import("@/usecase/list-generations").ListGenerations;
   getGenerationImage: import("@/usecase/get-generation-image").GetGenerationImage;
+  generationRepository: import("@/domain/generation-repository").GenerationRepository;
 };
 
 export function createApp(deps: AppDependencies) {

@@ -13,6 +13,7 @@ export type GenerationDto = {
   createdAt: string;
   status: Generation["status"];
   errorMessage: string | null;
+  hidden: boolean;
 };
 
 export function serializeGeneration(generation: Generation): GenerationDto {
@@ -31,6 +32,7 @@ export function serializeGeneration(generation: Generation): GenerationDto {
     createdAt: generation.createdAt,
     status: generation.status,
     errorMessage: generation.errorMessage,
+    hidden: generation.hidden,
   };
 }
 

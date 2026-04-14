@@ -12,6 +12,7 @@ export type Generation = {
   createdAt: string;
   status: "pending" | "succeeded" | "failed";
   errorMessage: string | null;
+  hidden: boolean;
 };
 
 export type PendingGenerationInput = {
@@ -40,6 +41,7 @@ export function createPendingGeneration(
     createdAt: new Date().toISOString(),
     status: "pending",
     errorMessage: null,
+    hidden: false,
   };
 }
 

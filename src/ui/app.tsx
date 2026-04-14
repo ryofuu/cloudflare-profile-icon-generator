@@ -1,5 +1,5 @@
 import { startTransition, useEffect, useState } from "react";
-import { Download, History, Sparkles, WandSparkles } from "lucide-react";
+import { Download, Sparkles, WandSparkles } from "lucide-react";
 import type { GenerationDto } from "@/api/serializers";
 import { findPreset, type SizePreset } from "@/domain/preset";
 import type { Sample } from "@/ui/samples";
@@ -221,24 +221,11 @@ export function App() {
             クリックでプロンプト欄に反映されます。
           </p>
         </div>
-        <SampleGallery samples={SAMPLES} onSelect={handleSampleSelect} />
+        <SampleGallery
+          samples={[...SAMPLES, ...history.map(generationToSample)]}
+          onSelect={handleSampleSelect}
+        />
       </section>
-
-      {/* History Gallery — full width */}
-      {history.length > 0 && (
-        <section className="relative space-y-3 px-5 pb-10 md:px-8">
-          <div className="mx-auto max-w-3xl">
-            <div className="flex items-center gap-2">
-              <History className="size-4 text-amber-700" />
-              <h2 className="text-sm font-semibold">最近の生成</h2>
-            </div>
-          </div>
-          <SampleGallery
-            samples={history.map(generationToSample)}
-            onSelect={handleSampleSelect}
-          />
-        </section>
-      )}
     </main>
   );
 }

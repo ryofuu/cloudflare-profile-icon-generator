@@ -23,8 +23,12 @@ export class MemoryGenerationRepository implements GenerationRepository {
   async findAll(params: {
     limit: number;
     cursor?: string;
+    includeHidden?: boolean;
   }): Promise<{ items: Generation[]; nextCursor: string | null }> {
-    const sorted = [...this.items].sort((left, right) =>
+    const filtered = params.includeHidden
+      ? this.items
+      : this.items.filter((item) => !item.hidden);
+    const sorted = [...filtered].sort((left, right) =>
       right.id.localeCompare(left.id),
     );
     const startIndex = params.cursor
@@ -37,6 +41,13 @@ export class MemoryGenerationRepository implements GenerationRepository {
         : null;
 
     return { items, nextCursor };
+  }
+
+  async updateHidden(id: string, hidden: boolean): Promise<void> {
+    const item = this.items.find((item) => item.id === id);
+    if (item) {
+      item.hidden = hidden;
+    }
   }
 }
 

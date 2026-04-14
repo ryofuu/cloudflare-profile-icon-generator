@@ -23,6 +23,7 @@ function createTestApp() {
     getGeneration: new GetGeneration(repository),
     listGenerations: new ListGenerations(repository),
     getGenerationImage: new GetGenerationImage(repository, storage),
+    generationRepository: repository,
   });
 }
 

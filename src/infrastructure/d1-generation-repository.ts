@@ -1,4 +1,4 @@
-import { desc, eq, lt } from "drizzle-orm";
+import { and, desc, eq, lt } from "drizzle-orm";
 import type { GenerationRepository } from "@/domain/generation-repository";
 import type { Generation } from "@/domain/generation";
 import type { Database } from "@/infrastructure/database";
@@ -17,6 +17,7 @@ function mapRowToGeneration(row: typeof generations.$inferSelect): Generation {
     createdAt: row.createdAt,
     status: row.status as Generation["status"],
     errorMessage: row.errorMessage,
+    hidden: row.hidden === 1,
   };
 }
 
@@ -38,6 +39,7 @@ export class D1GenerationRepository implements GenerationRepository {
         createdAt: generation.createdAt,
         status: generation.status,
         errorMessage: generation.errorMessage,
+        hidden: generation.hidden ? 1 : 0,
       })
       .onConflictDoUpdate({
         target: generations.id,
@@ -52,6 +54,7 @@ export class D1GenerationRepository implements GenerationRepository {
           createdAt: generation.createdAt,
           status: generation.status,
           errorMessage: generation.errorMessage,
+          hidden: generation.hidden ? 1 : 0,
         },
       });
   }
@@ -69,24 +72,36 @@ export class D1GenerationRepository implements GenerationRepository {
   async findAll(params: {
     limit: number;
     cursor?: string;
+    includeHidden?: boolean;
   }): Promise<{ items: Generation[]; nextCursor: string | null }> {
-    const rows = params.cursor
-      ? await this.db
-          .select()
-          .from(generations)
-          .where(lt(generations.id, params.cursor))
-          .orderBy(desc(generations.id))
-          .limit(params.limit + 1)
-      : await this.db
-          .select()
-          .from(generations)
-          .orderBy(desc(generations.id))
-          .limit(params.limit + 1);
+    const conditions = [];
+    if (params.cursor) {
+      conditions.push(lt(generations.id, params.cursor));
+    }
+    if (!params.includeHidden) {
+      conditions.push(eq(generations.hidden, 0));
+    }
+
+    const where = conditions.length > 0 ? and(...conditions) : undefined;
+
+    const rows = await this.db
+      .select()
+      .from(generations)
+      .where(where)
+      .orderBy(desc(generations.id))
+      .limit(params.limit + 1);
 
     const items = rows.slice(0, params.limit).map(mapRowToGeneration);
     const nextCursor =
       rows.length > params.limit ? items[items.length - 1]?.id ?? null : null;
 
     return { items, nextCursor };
+  }
+
+  async updateHidden(id: string, hidden: boolean): Promise<void> {
+    await this.db
+      .update(generations)
+      .set({ hidden: hidden ? 1 : 0 })
+      .where(eq(generations.id, id));
   }
 }

@@ -8,6 +8,7 @@ export class ListGenerations {
   async execute(params: {
     limit: number;
     cursor?: string;
+    includeHidden?: boolean;
   }): Promise<{ items: Generation[]; nextCursor: string | null }> {
     const limit = Number.isFinite(params.limit) ? params.limit : 20;
     if (limit < 1 || limit > 100) {
@@ -17,6 +18,7 @@ export class ListGenerations {
     return this.repository.findAll({
       limit,
       cursor: params.cursor,
+      includeHidden: params.includeHidden,
     });
   }
 }

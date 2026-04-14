@@ -12,4 +12,5 @@ export const generations = sqliteTable("generations", {
   createdAt: text("created_at").notNull(),
   status: text("status").notNull(),
   errorMessage: text("error_message"),
+  hidden: integer("hidden").notNull().default(0),
 });
