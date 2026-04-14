@@ -68,7 +68,10 @@ function toSamplePreview(sample: Sample): PreviewImage | null {
 export function App() {
   const [presets, setPresets] = useState<SizePreset[]>([]);
   const [selectedPresetId, setSelectedPresetId] = useState("square");
-  const [preview, setPreview] = useState<PreviewImage | null>(() => toSamplePreview(SAMPLES[0]) ?? null);
+  const [preview, setPreview] = useState<PreviewImage | null>(() => {
+    const cat = SAMPLES.find((s) => s.id === "handdrawn-cat") ?? SAMPLES[0];
+    return toSamplePreview(cat);
+  });
   const [prompt, setPrompt] = useState("");
   const [history, setHistory] = useState<GenerationDto[]>([]);
 
@@ -222,7 +225,7 @@ export function App() {
           </p>
         </div>
         <SampleGallery
-          samples={[...SAMPLES, ...history.map(generationToSample)]}
+          samples={[...history.map(generationToSample), ...SAMPLES]}
           onSelect={handleSampleSelect}
         />
       </section>

@@ -188,7 +188,7 @@ export const SAMPLES: Sample[] = [
   },
   {
     id: "handdrawn-cat",
-    label: "手描き風キャット",
+    label: "ムーンライトキャット",
     prompt: "猫のシルエット、ダークブルーとパープル、神秘的、人が描いたような手書き感、温かみのある筆のタッチ",
     imageUrl: "/samples/handdrawn-cat.png",
   },
