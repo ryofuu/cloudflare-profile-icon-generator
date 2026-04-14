@@ -5,8 +5,10 @@
   "type": "module",
   "packageManager": "pnpm@10.12.1",
   "scripts": {
-    "build": "pnpm build:client && pnpm typecheck",
+    "build": "pnpm build:client && pnpm build:server && pnpm prerender && pnpm typecheck",
     "build:client": "vite build",
+    "build:server": "vite build --ssr entry-server.tsx --outDir ../../dist/server",
+    "prerender": "node scripts/prerender.js",
     "dev": "concurrently \"pnpm dev:client\" \"pnpm dev:worker\"",
     "dev:local": "pnpm exec wrangler d1 migrations apply cloudflare-profile-icon --local && pnpm dev",
     "dev:client": "vite dev --host 127.0.0.1 --strictPort",
