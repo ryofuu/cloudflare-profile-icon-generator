@@ -26,9 +26,47 @@
 
     <!-- Theme -->
     <meta name="theme-color" content="#fffdf7" />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Profile Icon Generator",
+      "url": "https://profile-icon-generator.maker-ly.com/",
+      "description": "テキストプロンプトから SNS 用プロフィールアイコンを AI で生成。X, Instagram, Discord などに対応。",
+      "applicationCategory": "DesignApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JPY"
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="./main.tsx"></script>
+    <noscript>
+      <h1>Profile Icon Generator — AI でプロフィールアイコンを生成</h1>
+      <p>テキストプロンプトから SNS 用プロフィールアイコンを AI で生成するツールです。X, Instagram, Discord などのプロフィールアイコンに最適なサイズで出力します。</p>
+      <h2>サンプルギャラリー</h2>
+      <ul>
+        <li>サイバーパンクハッカー — SF風の女性ハッカー、ネオンブルーの照明</li>
+        <li>ストリートファッション — 都会的でクールな青年、鮮やかな色彩</li>
+        <li>モダン侍 — 和風テイストの侍、墨絵風タッチ</li>
+        <li>宇宙飛行士ポートレート — ヘルメットに星空が映る幻想的なポートレート</li>
+        <li>ローポリゴンアート — 幾何学的なファセット、ミニマルでモダン</li>
+        <li>ジャズミュージシャン — サックスを持つシルエット、フィルムノワール風</li>
+        <li>ダークアカデミア — 古い図書館、知的でミステリアス</li>
+        <li>ネオン東京 — 雨の夜の路地裏、ブレードランナー風</li>
+        <li>メカニカルフクロウ — スチームパンク風の機械仕掛け</li>
+        <li>氷の狼 — 氷の結晶でできた狼、オーロラの光</li>
+        <li>鳳凰 — 炎をまとった不死鳥、赤と金のグラデーション</li>
+        <li>盆栽 — 苔むした岩と白砂、和の静寂</li>
+      </ul>
+      <p>プロンプトを入力するだけで、正方形・横長・縦長の3つのアスペクト比でアイコンを生成できます。</p>
+    </noscript>
   </body>
 </html>
