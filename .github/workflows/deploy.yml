@@ -44,10 +44,10 @@ jobs:
         run: pnpm validate
 
       - name: Verify Cloudflare auth context
-        run: wrangler whoami
+        run: pnpm exec wrangler whoami
 
       - name: Verify D1 access
-        run: wrangler d1 info cloudflare-profile-icon
+        run: pnpm exec wrangler d1 info cloudflare-profile-icon
 
       - name: Apply remote D1 migrations
         run: pnpm d1:migrate:remote
