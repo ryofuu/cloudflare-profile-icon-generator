@@ -6,7 +6,7 @@ workers_dev = true
 preview_urls = true
 
 [[routes]]
-pattern = "profile-icon-generator.maker-fy.com"
+pattern = "profile-icon-generator.maker-ly.com"
 custom_domain = true
 zone_id = "3d5678c05786af9070728d7db8cb5a7e"
 
